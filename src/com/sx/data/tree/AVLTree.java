@@ -19,7 +19,7 @@ public class AVLTree<E> extends BST<E> {
 
 
     @Override
-    protected void afterNode(Node<E> node) {
+    protected void afterAdd(Node<E> node) {
         // 恢复平衡的逻辑
         while ((node = node.parent) != null) {
             if (isBalanced(node)) {
@@ -27,21 +27,33 @@ public class AVLTree<E> extends BST<E> {
                 updateHeight(node);
             } else {
                 // 恢复平衡
-//                rebalance(node);
-                reblance2(node);
+                reblance(node);
                 // 整棵树都恢复平衡
                 break;
             }
         }
     }
 
+    @Override
+    protected void afterRemove(Node<E> node) {
+        // 恢复平衡的逻辑
+        while ((node = node.parent) != null) {
+            if (isBalanced(node)) {
+                // 更新高度
+                updateHeight(node);
+            } else {
+                // 恢复平衡
+                reblance(node);
+            }
+        }
+    }
 
     /**
      * 恢复平衡
      *
      * @param grand 高度最低的那个不平衡节点
      */
-    private void rebalance(Node<E> grand) {
+    private void rebalance2(Node<E> grand) {
         final Node<E> parent = ((AVLNode<E>) grand).tallerChild();
         final Node<E> node = ((AVLNode<E>) parent).tallerChild();
         if (parent.isLeftChild()) { // L
@@ -71,7 +83,7 @@ public class AVLTree<E> extends BST<E> {
      *
      * @param grand
      */
-    private void reblance2(Node<E> grand) {
+    private void reblance(Node<E> grand) {
         final Node<E> parent = ((AVLNode<E>) grand).tallerChild();
         final Node<E> node = ((AVLNode<E>) parent).tallerChild();
         if (parent.isLeftChild()) { // L

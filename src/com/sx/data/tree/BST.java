@@ -29,7 +29,7 @@ public class BST<E> extends BinaryTree<E> {
         if (root == null) {
             root = createNode(element, null);
             size++;
-            afterNode(root);
+            afterAdd(root);
             return;
         }
         // 走到这里，说明添加的不是第一个节点
@@ -57,7 +57,7 @@ public class BST<E> extends BinaryTree<E> {
             parent.left = newNode;
         }
         size++;
-        afterNode(newNode);
+        afterAdd(newNode);
     }
 
     /**
@@ -65,7 +65,16 @@ public class BST<E> extends BinaryTree<E> {
      *
      * @param node
      */
-    protected void afterNode(Node<E> node) {
+    protected void afterAdd(Node<E> node) {
+    }
+
+    /**
+     * 删除节点之后的处理
+     *
+     * @param node
+     */
+    protected void afterRemove(Node<E> node) {
+
     }
 
     public void remove(E element) {
@@ -100,9 +109,11 @@ public class BST<E> extends BinaryTree<E> {
                 node.parent.left = replacement;
             }
 
+            afterRemove(node);
         } else if (node.parent == null) {
             // 度为0，也就是叶子节点,并且是根节点
             root = null;
+            afterRemove(node);
         } else {
             // 是叶子节点 但不是根节点
             if (node.parent.right == node) {
@@ -110,7 +121,7 @@ public class BST<E> extends BinaryTree<E> {
             } else {
                 node.parent.left = null;
             }
-
+            afterRemove(node);
         }
 
     }
