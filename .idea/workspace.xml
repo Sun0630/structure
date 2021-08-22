@@ -15,6 +15,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -176,6 +179,10 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="462" height="582" key="DebuggerActiveHint/0.0.1440.900@0.0.1440.900" timestamp="1622886146476" />
+    <state x="554" y="337" width="332" height="309" key="Github.ShareDialog" timestamp="1629598926478">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="554" y="337" width="332" height="309" key="Github.ShareDialog/0.0.1440.900@0.0.1440.900" timestamp="1629598926478" />
     <state width="1388" height="396" key="GridCell.Tab.0.bottom" timestamp="1629454554178">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
