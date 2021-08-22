@@ -4,21 +4,16 @@ import com.sx.data.tree.printer.BinaryTrees;
 
 public class Main {
     public static void main(String[] args) {
-//        preOrderTraversal();
-//        inOrderTraversal();
-//        levelOrderTraversal();
-//        levelOrderTraversal2();
         testAVLTree();
     }
 
     public static void testAVLTree() {
         Integer[] data = {92, 91, 45, 84, 41, 20, 2, 87, 28, 64, 88, 67, 97, 94, 21, 76};
-        BST<Integer> bst = new AVLTree<>();
+        BST<Integer> avlTree = new AVLTree<>();
         for (int i = 0; i < data.length; i++) {
-            bst.add(data[i]);
+            avlTree.add(data[i]);
         }
-        BinaryTrees.print(bst);
-        System.out.println();
+        BinaryTrees.print(avlTree);
     }
 
     /**

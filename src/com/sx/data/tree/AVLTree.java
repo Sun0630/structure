@@ -1,7 +1,5 @@
 package com.sx.data.tree;
 
-import com.sun.xml.internal.bind.v2.runtime.RuntimeUtil;
-
 import java.util.Comparator;
 
 /**
@@ -29,7 +27,8 @@ public class AVLTree<E> extends BST<E> {
                 updateHeight(node);
             } else {
                 // 恢复平衡
-                rebalance(node);
+//                rebalance(node);
+                reblance2(node);
                 // 整棵树都恢复平衡
                 break;
             }
@@ -65,6 +64,76 @@ public class AVLTree<E> extends BST<E> {
             }
 
         }
+    }
+
+    /**
+     * 统一旋转操作。
+     *
+     * @param grand
+     */
+    private void reblance2(Node<E> grand) {
+        final Node<E> parent = ((AVLNode<E>) grand).tallerChild();
+        final Node<E> node = ((AVLNode<E>) parent).tallerChild();
+        if (parent.isLeftChild()) { // L
+            if (node.isLeftChild()) { // LL
+                rotate(grand, node, node.right, parent, parent.right, grand);
+            } else { // LR
+                rotate(grand, parent, node.left, node, node.right, grand);
+            }
+        } else { //R
+            if (node.isLeftChild()) { //RL
+                rotate(grand, grand, node.left, node, node.right, parent);
+            } else { // RR
+                rotate(grand, grand, parent.left, parent, node, node.left);
+            }
+
+        }
+    }
+
+    /**
+     * 统一旋转：不管是左旋转还是右旋转，最后旋转完成后的结果都是一样的，最后发现规律
+     * d:会变成最终子树的根节点。  a , b ,c ,d ,e ,f ,g 按照顺序排列
+     *
+     * @param r 子树的根节点
+     * @param b
+     * @param c
+     * @param d
+     * @param e
+     * @param f
+     */
+    private void rotate(Node<E> r,
+                        Node<E> b, Node<E> c,
+                        Node<E> d,
+                        Node<E> e, Node<E> f) {
+        d.parent = r.parent;
+        if (r.isLeftChild()) {
+            r.parent.left = d;
+        } else if (r.isRightChild()) {
+            r.parent.right = d;
+        } else {
+            root = d;
+        }
+
+        //b-c
+        b.right = c;
+        if (c != null) {
+            c.parent = b;
+        }
+        updateHeight(b);
+
+        // e-f
+        f.left = e;
+        if (e != null) {
+            e.parent = f;
+        }
+        updateHeight(f);
+
+        // b-d-f
+        d.left = b;
+        d.right = f;
+        b.parent = d;
+        f.parent = d;
+        updateHeight(d);
     }
 
     /**
