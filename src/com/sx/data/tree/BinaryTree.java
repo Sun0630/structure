@@ -280,6 +280,29 @@ public class BinaryTree<E> implements BinaryTreeInfo {
         public boolean isRightChild() {
             return parent != null && parent.right == this;
         }
+
+        /**
+         * 获取兄弟节点
+         * @return
+         */
+        public Node<E> sibling(){
+            if (isLeftChild()){
+                return parent.right;
+            }
+            if (isRightChild()){
+                return parent.left;
+            }
+            return null;
+        }
+
+        /**
+         * 获取叔父节点
+         * @return
+         */
+        public Node<E> uncle(){
+            return parent.sibling();
+        }
+
     }
 
 
