@@ -4,7 +4,7 @@ import com.sx.data.tree.printer.BinaryTrees;
 
 public class Main {
     public static void main(String[] args) {
-        testAVLTree();
+        testRBTree();
     }
 
     public static void testAVLTree() {
@@ -14,6 +14,15 @@ public class Main {
             avlTree.add(data[i]);
         }
         BinaryTrees.print(avlTree);
+    }
+
+    public static void testRBTree() {
+        Integer[] data = {62, 77, 72, 4, 41, 67, 46, 5, 1};
+        RBTree<Integer> rbTree = new RBTree<>();
+        for (int i = 0; i < data.length; i++) {
+            rbTree.add(data[i]);
+        }
+        BinaryTrees.print(rbTree);
     }
 
     /**

@@ -1,5 +1,8 @@
 package com.sx.data.tree;
 
+import com.sun.org.apache.xml.internal.serializer.ToStream;
+import com.sun.xml.internal.bind.v2.runtime.RuntimeUtil;
+
 import java.util.Comparator;
 
 /**
@@ -40,7 +43,7 @@ public class RBTree<E> extends BBST<E> {
         // 祖父节点
         final Node<E> grand = parent.parent;
         // 3. 叔父节点是红色
-        if (isRed(uncle)){
+        if (isRed(uncle)) {
             // 上溢，染色
             black(uncle);
             black(parent);
@@ -49,7 +52,28 @@ public class RBTree<E> extends BBST<E> {
             return;
         }
 
-        // 4. 叔父节点不是红色
+        // 4. 叔父节点不是红色，LL,RR,LR,RL 需要旋转
+        if (parent.isLeftChild()) { // L
+            red(grand);
+            if (node.isLeftChild()) { // LL
+                black(parent);
+            } else { // LR
+                black(node);
+                rotateLeft(parent);
+            }
+            // grand进行右旋转
+            rotateRight(grand);
+        } else { // R
+            red(grand);
+            if (node.isLeftChild()) { //RL
+                black(node);
+                rotateRight(parent);
+            } else {//RR
+                black(parent);
+            }
+            // grand进行左旋转
+            rotateLeft(grand);
+        }
 
     }
 
@@ -116,6 +140,11 @@ public class RBTree<E> extends BBST<E> {
         return colorOf(node) == RED;
     }
 
+    @Override
+    protected Node<E> createNode(E element, Node<E> parent) {
+        return new RBNode<>(element, parent);
+    }
+
     private static class RBNode<E> extends Node<E> {
 
         // 默认是红色
@@ -125,7 +154,14 @@ public class RBTree<E> extends BBST<E> {
             super(element, parent);
         }
 
-
+        @Override
+        public String toString() {
+            String str = "";
+            if (color == RED) {
+                str = "R_";
+            }
+            return str + element.toString();
+        }
     }
 
 }
