@@ -4,11 +4,11 @@ import java.util.Comparator;
 
 /**
  * 红黑树
- * 平衡二叉搜索树
+ * 自平衡的二叉搜索树
  *
  * @param <E>
  */
-public class RBTree<E> extends BST<E> {
+public class RBTree<E> extends BBST<E> {
 
     public static final boolean RED = false;
     public static final boolean BLACK = true;
@@ -21,6 +21,37 @@ public class RBTree<E> extends BST<E> {
     public RBTree() {
     }
 
+
+    @Override
+    protected void afterAdd(Node<E> node) {
+        final Node<E> parent = node.parent;
+        if (parent == null) {
+            // 1. 如果添加的是根节点，直接染黑
+            black(node);
+            return;
+        }
+        //2.  如果添加在黑色节点下，不做处理
+        if (isBlack(parent)) {
+            return;
+        }
+
+        // 叔父节点
+        final Node<E> uncle = node.uncle();
+        // 祖父节点
+        final Node<E> grand = parent.parent;
+        // 3. 叔父节点是红色
+        if (isRed(uncle)){
+            // 上溢，染色
+            black(uncle);
+            black(parent);
+            // 祖父节点当成是新添加的节点，向上合并。递归调用
+            afterAdd(red(grand));
+            return;
+        }
+
+        // 4. 叔父节点不是红色
+
+    }
 
     /**
      * 着色
@@ -57,6 +88,7 @@ public class RBTree<E> extends BST<E> {
 
     /**
      * 判断一个节点的颜色
+     *
      * @param node
      * @return
      */
@@ -66,6 +98,7 @@ public class RBTree<E> extends BST<E> {
 
     /**
      * 判断节点是否为黑色
+     *
      * @param node
      * @return
      */
@@ -75,6 +108,7 @@ public class RBTree<E> extends BST<E> {
 
     /**
      * 判断节点是否红黑色
+     *
      * @param node
      * @return
      */
@@ -84,7 +118,8 @@ public class RBTree<E> extends BST<E> {
 
     private static class RBNode<E> extends Node<E> {
 
-        boolean color;
+        // 默认是红色
+        boolean color = RED;
 
         public RBNode(E element, Node<E> parent) {
             super(element, parent);
